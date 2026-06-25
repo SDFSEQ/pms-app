@@ -39,12 +39,20 @@ export class ProjectListComponent implements OnInit {
 
   confirmDelete(p: Project) {
     this.confirmationService.confirm({
-      message: `Delete project "${p.name}"?`,
+      message: `Are you sure you want to delete "${p.name}"?`,
       header: 'Confirm Delete',
       icon: 'pi pi-trash',
+      acceptButtonStyleClass: 'p-button-danger',
       accept: () => {
         this.projectService.delete(p.id).subscribe({
-          next: () => { this.messageService.add({ severity: 'success', summary: 'Deleted' }); this.load(); }
+          next: () => {
+            this.messageService.add({ severity: 'success', summary: 'Deleted', detail: `"${p.name}" has been removed.` });
+            this.load();
+          },
+          error: (err) => {
+            const detail = err.error?.detail ?? 'This project cannot be deleted.';
+            this.messageService.add({ severity: 'error', summary: 'Cannot Delete', detail, life: 8000, sticky: false });
+          }
         });
       }
     });

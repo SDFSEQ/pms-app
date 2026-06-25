@@ -124,8 +124,20 @@ public class ProjectService(AppDbContext db) : IProjectService
         var project = await db.Projects.FindAsync(id)
             ?? throw new NotFoundException("Project", id);
 
-        if (await db.Assignments.AnyAsync(a => a.ProjectId == id))
-            throw new ConflictException("Project has assignment history and cannot be deleted.");
+        var assignments = await db.Assignments
+            .Include(a => a.Employee)
+            .Where(a => a.ProjectId == id)
+            .ToListAsync();
+
+        if (assignments.Any())
+        {
+            var names = string.Join(", ", assignments
+                .Select(a => $"{a.Employee.FirstName} {a.Employee.LastName}")
+                .Distinct());
+            throw new ConflictException(
+                $"Cannot delete \"{project.Name}\" — it has {assignments.Count} active " +
+                $"assignment(s): {names}. Please remove all assignments first, then try again.");
+        }
 
         db.Projects.Remove(project);
         await db.SaveChangesAsync();

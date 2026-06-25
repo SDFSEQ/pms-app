@@ -99,8 +99,21 @@ public class EmployeeService(AppDbContext db) : IEmployeeService
         var employee = await db.Employees.FindAsync(id)
             ?? throw new NotFoundException("Employee", id);
 
-        if (await db.Assignments.AnyAsync(a => a.EmployeeId == id))
-            throw new ConflictException("Employee has assignment history and cannot be deleted.");
+        var assignments = await db.Assignments
+            .Include(a => a.Project)
+            .Where(a => a.EmployeeId == id)
+            .ToListAsync();
+
+        if (assignments.Any())
+        {
+            var projectNames = string.Join(", ", assignments
+                .Select(a => a.Project.Name)
+                .Distinct());
+            throw new ConflictException(
+                $"Cannot delete \"{employee.FirstName} {employee.LastName}\" — they have " +
+                $"{assignments.Count} active assignment(s) on: {projectNames}. " +
+                "Please remove all assignments first, then try again.");
+        }
 
         db.Employees.Remove(employee);
         await db.SaveChangesAsync();
