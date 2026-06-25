@@ -1,9 +1,11 @@
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PMS.API.DTOs.Project;
 using PMS.API.Services.Interfaces;
 
 namespace PMS.API.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class ProjectsController(IProjectService projectService) : ControllerBase
@@ -33,3 +35,5 @@ public class ProjectsController(IProjectService projectService) : ControllerBase
         return NoContent();
     }
 }
+
+

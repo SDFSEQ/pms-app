@@ -10,7 +10,10 @@
       "PowerShell(Stop-Process -Id 29112 -Force -ErrorAction SilentlyContinue)",
       "PowerShell(Stop-Process -Id 14312 -Force -ErrorAction SilentlyContinue)",
       "PowerShell(Get-Process -Name \"PMS.API\" -ErrorAction SilentlyContinue)",
-      "PowerShell(Stop-Process -Force)"
+      "PowerShell(Stop-Process -Force)",
+      "PowerShell(New-Item -ItemType Directory -Force \"c:\\\\Users\\\\Ranger\\\\ClaudeProjects\\\\PMS\\\\pms-client\\\\src\\\\app\\\\core\\\\guards\")",
+      "PowerShell(New-Item -ItemType Directory -Force \"c:\\\\Users\\\\Ranger\\\\ClaudeProjects\\\\PMS\\\\pms-client\\\\src\\\\app\\\\features\\\\auth\\\\login\")",
+      "PowerShell(New-Item -ItemType Directory -Force \"c:\\\\Users\\\\Ranger\\\\ClaudeProjects\\\\PMS\\\\pms-client\\\\src\\\\app\\\\features\\\\users\")"
     ]
   }
 }

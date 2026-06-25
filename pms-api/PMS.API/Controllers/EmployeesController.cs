@@ -1,9 +1,11 @@
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PMS.API.DTOs.Employee;
 using PMS.API.Services.Interfaces;
 
 namespace PMS.API.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class EmployeesController(IEmployeeService employeeService) : ControllerBase
@@ -33,3 +35,5 @@ public class EmployeesController(IEmployeeService employeeService) : ControllerB
         return NoContent();
     }
 }
+
+

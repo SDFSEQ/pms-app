@@ -11,6 +11,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
     public DbSet<EmployeeDiscipline> EmployeeDisciplines => Set<EmployeeDiscipline>();
     public DbSet<ProjectDiscipline> ProjectDisciplines => Set<ProjectDiscipline>();
     public DbSet<Assignment> Assignments => Set<Assignment>();
+    public DbSet<AppUser> AppUsers => Set<AppUser>();
 
     protected override void OnModelCreating(ModelBuilder mb)
     {
@@ -36,6 +37,14 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
         mb.Entity<ProjectDiscipline>()
             .HasIndex(pd => new { pd.ProjectId, pd.DisciplineId })
             .IsUnique();
+
+        mb.Entity<AppUser>()
+            .HasIndex(u => u.Username)
+            .IsUnique();
+
+        mb.Entity<AppUser>()
+            .Property(u => u.Role)
+            .HasConversion<string>();
 
         // Seed disciplines
         mb.Entity<Discipline>().HasData(

@@ -1,9 +1,11 @@
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PMS.API.DTOs.Discipline;
 using PMS.API.Services.Interfaces;
 
 namespace PMS.API.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class DisciplinesController(IDisciplineService disciplineService) : ControllerBase
@@ -32,3 +34,5 @@ public class DisciplinesController(IDisciplineService disciplineService) : Contr
         return NoContent();
     }
 }
+
+
