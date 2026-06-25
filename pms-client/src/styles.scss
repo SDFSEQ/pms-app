@@ -66,6 +66,11 @@ h2 { margin: 0 0 1rem; font-size: 1.4rem; font-weight: 600; color: #1e293b; }
   border-bottom: 2px solid var(--surface-200);
 }
 
+// Shared column widths used by both header and each row
+.req-col-discipline { flex: 1; min-width: 0; }
+.req-col-count      { width: 8.5rem; flex-shrink: 0; }
+.req-col-action     { width: 2.5rem; flex-shrink: 0; display: flex; justify-content: center; }
+
 .requirement-header {
   display: flex;
   align-items: center;
@@ -73,21 +78,18 @@ h2 { margin: 0 0 1rem; font-size: 1.4rem; font-weight: 600; color: #1e293b; }
   padding: 0 0.75rem 0.4rem;
   margin-bottom: 0.25rem;
 
-  .req-col-discipline { flex: 1; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--surface-500); }
-  .req-col-count { width: 6rem; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--surface-500); }
+  span { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--surface-500); }
 }
 
 .requirement-row {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  padding: 0.6rem 0.75rem;
+  padding: 0.5rem 0.75rem;
   margin-bottom: 0.5rem;
   background: var(--surface-50);
   border: 1px solid var(--surface-200);
   border-radius: 6px;
-
-  p-dropdown { flex: 1; }
 }
 
 // ── Dialog form utilities ──────────────────────────────────────────────────

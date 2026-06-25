@@ -36,24 +36,33 @@
       <div *ngIf="requirements.length > 0" class="requirement-header">
         <span class="req-col-discipline">Discipline</span>
         <span class="req-col-count">Headcount Needed</span>
+        <span class="req-col-action"></span>
       </div>
       <div *ngFor="let req of requirements.controls; let i = index"
            [formGroupName]="i" class="requirement-row">
-        <p-dropdown
-          formControlName="disciplineId"
-          [options]="disciplines"
-          optionLabel="name"
-          optionValue="id"
-          placeholder="Select Discipline"
-          styleClass="w-full">
-        </p-dropdown>
-        <p-inputNumber
-          formControlName="requiredCount"
-          [min]="1" [max]="99"
-          placeholder="Count"
-          inputStyleClass="w-5rem">
-        </p-inputNumber>
-        <p-button icon="pi pi-trash" severity="danger" [text]="true" (click)="removeRequirement(i)"></p-button>
+        <div class="req-col-discipline">
+          <p-dropdown
+            formControlName="disciplineId"
+            [options]="disciplines"
+            optionLabel="name"
+            optionValue="id"
+            placeholder="Select Discipline"
+            styleClass="w-full">
+          </p-dropdown>
+        </div>
+        <div class="req-col-count">
+          <p-inputNumber
+            formControlName="requiredCount"
+            [min]="1" [max]="99"
+            [showButtons]="true"
+            placeholder="0"
+            styleClass="w-full"
+            inputStyleClass="w-full text-center">
+          </p-inputNumber>
+        </div>
+        <div class="req-col-action">
+          <p-button icon="pi pi-trash" severity="danger" [text]="true" (click)="removeRequirement(i)"></p-button>
+        </div>
       </div>
     </div>
 
