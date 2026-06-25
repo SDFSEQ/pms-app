@@ -33,6 +33,10 @@
     <div class="form-section-label">Discipline Requirements</div>
 
     <div formArrayName="requirements">
+      <div *ngIf="requirements.length > 0" class="requirement-header">
+        <span class="req-col-discipline">Discipline</span>
+        <span class="req-col-count">Headcount Needed</span>
+      </div>
       <div *ngFor="let req of requirements.controls; let i = index"
            [formGroupName]="i" class="requirement-row">
         <p-dropdown
