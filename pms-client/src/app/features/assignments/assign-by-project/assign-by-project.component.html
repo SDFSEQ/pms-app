@@ -1,0 +1,107 @@
+<p-toast></p-toast>
+
+<h2>Assign by Project</h2>
+
+<div class="grid">
+  <div class="col-12 md:col-5">
+    <p-card header="Projects with Open Positions">
+      <p-table [value]="projects" [loading]="loading">
+        <ng-template pTemplate="header">
+          <tr><th>Project</th><th>Open</th></tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-p>
+          <tr class="cursor-pointer" [class.selected-row]="selectedProject?.id === p.id" (click)="selectProject(p)">
+            <td><strong>{{ p.name }}</strong></td>
+            <td><span class="font-bold text-orange-600">{{ p.totalOpen }}</span></td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+          <tr><td colspan="2" class="text-center">No projects with open positions.</td></tr>
+        </ng-template>
+      </p-table>
+    </p-card>
+  </div>
+
+  <div class="col-12 md:col-7">
+    <p-card [header]="selectedProject ? 'Open Slots — ' + selectedProject.name : 'Open Slots'">
+      <ng-template [ngIf]="selectedProject" [ngIfElse]="noSelection">
+        <p-table [value]="openSlots">
+          <ng-template pTemplate="header">
+            <tr><th>Discipline</th><th>Open / Required</th><th>Action</th></tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-slot>
+            <tr>
+              <td>{{ slot.disciplineName }}</td>
+              <td>{{ slot.openCount }} / {{ slot.requiredCount }}</td>
+              <td>
+                <p-button label="Assign Employee" icon="pi pi-user-plus" severity="info" (click)="selectSlot(slot)"></p-button>
+              </td>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="emptymessage">
+            <tr><td colspan="3" class="text-center">All positions filled!</td></tr>
+          </ng-template>
+        </p-table>
+      </ng-template>
+      <ng-template #noSelection>
+        <p class="text-center text-color-secondary">Select a project on the left to view open slots.</p>
+      </ng-template>
+    </p-card>
+  </div>
+</div>
+
+<p-dialog
+  [(visible)]="showEmployeeDialog"
+  [header]="'Assign to: ' + (selectedSlot?.disciplineName ?? '')"
+  [modal]="true"
+  [style]="{ width: '90vw', 'max-width': '540px' }"
+  [contentStyle]="{ overflow: 'auto' }">
+
+  <div *ngIf="loadingEmployees" class="text-center py-4 text-color-secondary">
+    <i class="pi pi-spin pi-spinner mr-2"></i>Loading eligible employees...
+  </div>
+
+  <div *ngIf="!loadingEmployees && eligibleEmployees.length === 0" class="text-center py-4 text-color-secondary">
+    <i class="pi pi-info-circle mr-2"></i>No available employees with this discipline.
+  </div>
+
+  <div *ngIf="!loadingEmployees && eligibleEmployees.length > 0">
+    <div class="form-field">
+      <label class="form-label">Employee *</label>
+      <p-dropdown
+        [(ngModel)]="selectedEmployee"
+        [options]="eligibleEmployees"
+        optionLabel="firstName"
+        placeholder="Select an employee"
+        styleClass="w-full">
+        <ng-template pTemplate="item" let-e>{{ e.firstName }} {{ e.lastName }} — {{ e.email }}</ng-template>
+        <ng-template pTemplate="selectedItem" let-e>{{ e.firstName }} {{ e.lastName }}</ng-template>
+      </p-dropdown>
+    </div>
+
+    <div class="form-row">
+      <div class="form-field flex-1">
+        <label class="form-label">Start Date *</label>
+        <p-calendar [(ngModel)]="startDate" dateFormat="yy-mm-dd" styleClass="w-full" appendTo="body"></p-calendar>
+      </div>
+      <div class="form-field flex-1">
+        <label class="form-label">End Date *</label>
+        <p-calendar [(ngModel)]="endDate" dateFormat="yy-mm-dd" styleClass="w-full" [minDate]="startDate ?? undefined" appendTo="body"></p-calendar>
+      </div>
+    </div>
+
+    <div class="dialog-footer">
+      <p-button label="Cancel" severity="secondary" [outlined]="true" (click)="showEmployeeDialog = false"></p-button>
+      <p-button label="Confirm Assignment" icon="pi pi-check"
+                [disabled]="!selectedEmployee || !startDate || !endDate || saving"
+                [loading]="saving"
+                (click)="confirmAssignment()">
+      </p-button>
+    </div>
+  </div>
+</p-dialog>
+
+<style>
+  .selected-row { background: var(--primary-100) !important; }
+  .cursor-pointer { cursor: pointer; }
+</style>

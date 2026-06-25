@@ -1,0 +1,14 @@
+Done. The skill is saved at .claude/commands/pms-dev.md.
+
+How to use it: At the start of any future session, type:
+
+
+/pms-dev
+This loads the full project context into Claude so it immediately knows:
+
+How to start both services and run migrations
+Every backend pattern (Model → DTO → Interface → Service → Controller → Program.cs)
+Every frontend pattern (model → service → routes → sidebar)
+All existing API endpoints
+The end-to-end checklist for adding a new feature
+Just type /pms-dev first, then describe the feature you want — e.g. "Add a reports page that shows assignments per project" — and Claude will follow the established patterns without needing to re-explore the codebase.

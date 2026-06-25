@@ -1,0 +1,35 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "API (.NET)",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "Start API",
+      "program": "${workspaceFolder}/pms-api/PMS.API/bin/Debug/net8.0/PMS.API.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/pms-api/PMS.API",
+      "env": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "sourceFileMap": {
+        "/Views": "${workspaceFolder}"
+      }
+    },
+    {
+      "name": "Frontend (Angular)",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:4200",
+      "preLaunchTask": "Start Frontend",
+      "webRoot": "${workspaceFolder}/pms-client/src"
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Full Stack (API + Frontend)",
+      "configurations": ["API (.NET)", "Frontend (Angular)"],
+      "stopAll": true
+    }
+  ]
+}

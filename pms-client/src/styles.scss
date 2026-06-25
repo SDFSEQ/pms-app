@@ -1,0 +1,93 @@
+@import "primeng/resources/themes/lara-light-blue/theme.css";
+@import "primeng/resources/primeng.css";
+@import "primeicons/primeicons.css";
+
+body {
+  margin: 0;
+  font-family: var(--p-font-family, 'Inter', system-ui, sans-serif);
+  background-color: #f8f9fa;
+  color: #1e293b;
+}
+
+* { box-sizing: border-box; }
+
+h2 { margin: 0 0 1rem; font-size: 1.4rem; font-weight: 600; color: #1e293b; }
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  h2 { margin: 0; }
+}
+
+.max-w-lg { max-width: 520px; }
+.max-w-2xl { max-width: 720px; }
+
+// ── Form layout utilities ──────────────────────────────────────────────────
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 1.25rem;
+}
+
+.form-label {
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: var(--text-color);
+}
+
+.form-row {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+
+  .form-field { margin-bottom: 0; }
+
+  @media (max-width: 576px) { flex-direction: column; }
+}
+
+.form-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  padding-top: 1.25rem;
+  margin-top: 0.25rem;
+  border-top: 1px solid var(--surface-border);
+}
+
+.form-section-label {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--surface-700);
+  padding-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
+  border-bottom: 2px solid var(--surface-200);
+}
+
+.requirement-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem 0.75rem;
+  margin-bottom: 0.5rem;
+  background: var(--surface-50);
+  border: 1px solid var(--surface-200);
+  border-radius: 6px;
+
+  p-dropdown { flex: 1; }
+}
+
+// ── Dialog form utilities ──────────────────────────────────────────────────
+.dialog-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  padding-top: 1rem;
+  margin-top: 0.25rem;
+  border-top: 1px solid var(--surface-border);
+}
+
+// ── p-dialog: ensure content never clips calendar overlays ────────────────
+.p-dialog .p-dialog-content { overflow: visible !important; }

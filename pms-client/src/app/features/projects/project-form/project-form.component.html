@@ -1,0 +1,66 @@
+<p-toast></p-toast>
+
+<p-card [header]="isEdit ? 'Edit Project' : 'New Project'" styleClass="max-w-2xl">
+  <form [formGroup]="form" (ngSubmit)="submit()">
+
+    <div class="form-field">
+      <label for="name" class="form-label">Project Name *</label>
+      <input pInputText id="name" formControlName="name" class="w-full" />
+    </div>
+
+    <div class="form-field">
+      <label for="desc" class="form-label">Description</label>
+      <textarea pInputTextarea id="desc" formControlName="description" class="w-full" rows="3"></textarea>
+    </div>
+
+    <div class="form-row">
+      <div class="form-field flex-1">
+        <label for="startDate" class="form-label">Start Date</label>
+        <p-calendar id="startDate" formControlName="startDate" styleClass="w-full" dateFormat="yy-mm-dd"></p-calendar>
+      </div>
+      <div class="form-field flex-1">
+        <label for="endDate" class="form-label">End Date</label>
+        <p-calendar id="endDate" formControlName="endDate" styleClass="w-full" dateFormat="yy-mm-dd"></p-calendar>
+      </div>
+    </div>
+
+    <div *ngIf="isEdit" class="form-field">
+      <label for="status" class="form-label">Status</label>
+      <p-dropdown id="status" formControlName="status" [options]="statusOptions"
+                  optionLabel="label" optionValue="value" styleClass="w-full"></p-dropdown>
+    </div>
+
+    <div class="form-section-label">Discipline Requirements</div>
+
+    <div formArrayName="requirements">
+      <div *ngFor="let req of requirements.controls; let i = index"
+           [formGroupName]="i" class="requirement-row">
+        <p-dropdown
+          formControlName="disciplineId"
+          [options]="disciplines"
+          optionLabel="name"
+          optionValue="id"
+          placeholder="Select Discipline"
+          styleClass="w-full">
+        </p-dropdown>
+        <p-inputNumber
+          formControlName="requiredCount"
+          [min]="1" [max]="99"
+          placeholder="Count"
+          inputStyleClass="w-5rem">
+        </p-inputNumber>
+        <p-button icon="pi pi-trash" severity="danger" [text]="true" (click)="removeRequirement(i)"></p-button>
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <p-button icon="pi pi-plus" label="Add Discipline" severity="secondary" [outlined]="true" (click)="addRequirement()"></p-button>
+    </div>
+
+    <div class="form-footer">
+      <p-button label="Cancel" severity="secondary" [outlined]="true" (click)="cancel()"></p-button>
+      <p-button label="Save Project" type="submit" [disabled]="form.invalid || saving" [loading]="saving"></p-button>
+    </div>
+
+  </form>
+</p-card>

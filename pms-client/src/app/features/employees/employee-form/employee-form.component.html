@@ -1,0 +1,46 @@
+<p-toast></p-toast>
+
+<p-card [header]="isEdit ? 'Edit Employee' : 'New Employee'" styleClass="max-w-lg">
+  <form [formGroup]="form" (ngSubmit)="submit()">
+
+    <div class="form-row">
+      <div class="form-field flex-1">
+        <label for="firstName" class="form-label">First Name *</label>
+        <input pInputText id="firstName" formControlName="firstName" class="w-full" />
+      </div>
+      <div class="form-field flex-1">
+        <label for="lastName" class="form-label">Last Name *</label>
+        <input pInputText id="lastName" formControlName="lastName" class="w-full" />
+      </div>
+    </div>
+
+    <div class="form-field">
+      <label for="email" class="form-label">Email *</label>
+      <input pInputText id="email" formControlName="email" type="email" class="w-full" />
+    </div>
+
+    <div class="form-field">
+      <label for="phone" class="form-label">Phone</label>
+      <input pInputText id="phone" formControlName="phone" class="w-full" />
+    </div>
+
+    <div class="form-field">
+      <label for="disciplines" class="form-label">Disciplines *</label>
+      <p-multiSelect
+        id="disciplines"
+        formControlName="disciplineIds"
+        [options]="disciplines"
+        optionLabel="name"
+        optionValue="id"
+        placeholder="Select disciplines"
+        styleClass="w-full">
+      </p-multiSelect>
+    </div>
+
+    <div class="form-footer">
+      <p-button label="Cancel" severity="secondary" [outlined]="true" (click)="cancel()"></p-button>
+      <p-button label="Save Employee" type="submit" [disabled]="form.invalid || saving" [loading]="saving"></p-button>
+    </div>
+
+  </form>
+</p-card>

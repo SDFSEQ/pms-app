@@ -1,0 +1,117 @@
+@if (loading) {
+  <div class="flex justify-content-center align-items-center" style="height:60vh">
+    <p-progressSpinner />
+  </div>
+} @else if (summary) {
+
+  <!-- KPI Cards -->
+  <div class="kpi-grid">
+    <div class="kpi-card blue" routerLink="/projects">
+      <div class="kpi-icon"><i class="pi pi-folder-open"></i></div>
+      <div class="kpi-content">
+        <div class="kpi-number">{{ summary.totalProjectsWithOpenPositions }}</div>
+        <div class="kpi-label">Projects with Openings</div>
+      </div>
+      <i class="pi pi-arrow-right kpi-arrow"></i>
+    </div>
+
+    <div class="kpi-card orange" routerLink="/assignments">
+      <div class="kpi-icon"><i class="pi pi-exclamation-circle"></i></div>
+      <div class="kpi-content">
+        <div class="kpi-number">{{ summary.totalOpenPositions }}</div>
+        <div class="kpi-label">Total Open Positions</div>
+      </div>
+      <i class="pi pi-arrow-right kpi-arrow"></i>
+    </div>
+
+    <div class="kpi-card green" routerLink="/employees">
+      <div class="kpi-icon"><i class="pi pi-users"></i></div>
+      <div class="kpi-content">
+        <div class="kpi-number">{{ summary.totalAvailableEmployees }}</div>
+        <div class="kpi-label">Available Employees</div>
+      </div>
+      <i class="pi pi-arrow-right kpi-arrow"></i>
+    </div>
+  </div>
+
+  <!-- Discipline Breakdown -->
+  <div class="section-grid">
+
+    <!-- Open Positions -->
+    <div class="section-card">
+      <div class="section-header">
+        <div class="section-header-icon orange"><i class="pi pi-exclamation-triangle"></i></div>
+        <div>
+          <h3>Open Positions by Discipline</h3>
+          <span class="section-sub">Unfilled slots across all active projects</span>
+        </div>
+      </div>
+
+      @if (summary.openPositionsByDiscipline.length === 0) {
+        <div class="empty-state">
+          <i class="pi pi-check-circle"></i>
+          <p>All positions filled!</p>
+        </div>
+      } @else {
+        <div class="disc-list">
+          @for (d of summary.openPositionsByDiscipline; track d.disciplineId; let i = $index) {
+            <div class="disc-row">
+              <div class="disc-badge" [style.background]="palette[i % palette.length]">
+                {{ d.count }}
+              </div>
+              <div class="disc-info">
+                <div class="disc-name">{{ d.disciplineName }}</div>
+                <div class="disc-bar-track">
+                  <div class="disc-bar-fill"
+                       [style.width.%]="pct(d.count, maxOpen)"
+                       [style.background]="palette[i % palette.length]">
+                  </div>
+                </div>
+              </div>
+              <span class="disc-count-label">{{ d.count }} open</span>
+            </div>
+          }
+        </div>
+      }
+    </div>
+
+    <!-- Available Employees -->
+    <div class="section-card">
+      <div class="section-header">
+        <div class="section-header-icon green"><i class="pi pi-users"></i></div>
+        <div>
+          <h3>Available Employees by Discipline</h3>
+          <span class="section-sub">Employees ready for assignment</span>
+        </div>
+      </div>
+
+      @if (summary.availableEmployeesByDiscipline.length === 0) {
+        <div class="empty-state">
+          <i class="pi pi-info-circle"></i>
+          <p>No employees available right now.</p>
+        </div>
+      } @else {
+        <div class="disc-list">
+          @for (d of summary.availableEmployeesByDiscipline; track d.disciplineId; let i = $index) {
+            <div class="disc-row">
+              <div class="disc-badge" [style.background]="palette[i % palette.length]">
+                {{ d.count }}
+              </div>
+              <div class="disc-info">
+                <div class="disc-name">{{ d.disciplineName }}</div>
+                <div class="disc-bar-track">
+                  <div class="disc-bar-fill"
+                       [style.width.%]="pct(d.count, maxAvail)"
+                       [style.background]="palette[i % palette.length]">
+                  </div>
+                </div>
+              </div>
+              <span class="disc-count-label">{{ d.count }} free</span>
+            </div>
+          }
+        </div>
+      }
+    </div>
+
+  </div>
+}
