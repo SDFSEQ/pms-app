@@ -1,3 +1,5 @@
 {
+  "buildCommand": "npm run build -- --configuration production",
+  "outputDirectory": "dist/pms-client/browser",
   "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
 }
