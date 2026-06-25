@@ -4,18 +4,16 @@ import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { MenuItem } from 'primeng/api';
 import { AuthService } from '../../core/services/auth.service';
+import { LogoComponent } from '../../shared/components/logo/logo.component';
 
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [RouterLink, RouterLinkActive, CommonModule, ButtonModule],
+  imports: [RouterLink, RouterLinkActive, CommonModule, ButtonModule, LogoComponent],
   template: `
     <div class="sidebar">
       <div class="sidebar-logo">
-        <div class="logo-content">
-          <span class="logo-text">PMS</span>
-          <span class="logo-sub">Project Manager</span>
-        </div>
+        <app-logo [iconSize]="40" orientation="horizontal" />
         <button class="sidebar-close" (click)="closeRequest.emit()" aria-label="Close menu">
           <i class="pi pi-times"></i>
         </button>
@@ -63,8 +61,7 @@ import { AuthService } from '../../core/services/auth.service';
   `,
   styles: [`
     .sidebar { display:flex; flex-direction:column; height:100%; background:var(--surface-900); color:var(--surface-0); }
-    .sidebar-logo { padding:1.25rem 1rem; border-bottom:1px solid var(--surface-700); display:flex; align-items:center; justify-content:space-between; }
-    .logo-content { display:flex; flex-direction:column; }
+    .sidebar-logo { padding:1rem; border-bottom:1px solid var(--surface-700); display:flex; align-items:center; justify-content:space-between; }
     .sidebar-close { display:none; background:none; border:none; color:var(--surface-400); cursor:pointer; padding:0.3rem; border-radius:6px; }
     .sidebar-close:hover { color:var(--surface-100); background:var(--surface-700); }
     .sidebar-close i { font-size:1rem; }
