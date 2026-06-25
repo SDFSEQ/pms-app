@@ -14,7 +14,7 @@
     [paginator]="true"
     [rows]="15"
     [globalFilterFields]="['name','status']"
-    styleClass="p-datatable-striped"
+    styleClass="p-datatable-striped p-datatable-sm"
     [expandedRowKeys]="{}">
 
     <ng-template pTemplate="caption">
@@ -59,9 +59,11 @@
           <span class="text-color-secondary hide-mobile"> / {{ proj.totalRequired }}</span>
         </td>
         <td>
-          <p-button icon="pi pi-eye"    severity="secondary" [text]="true" [routerLink]="[proj.id]" />
-          <p-button icon="pi pi-pencil" severity="info"      [text]="true" [routerLink]="[proj.id, 'edit']" />
-          <p-button icon="pi pi-trash"  severity="danger"    [text]="true" (click)="confirmDelete(proj)" />
+          <div class="action-btns">
+            <p-button icon="pi pi-eye"    severity="secondary" [text]="true" [routerLink]="[proj.id]" />
+            <p-button icon="pi pi-pencil" severity="info"      [text]="true" [routerLink]="[proj.id, 'edit']" />
+            <p-button icon="pi pi-trash"  severity="danger"    [text]="true" (click)="confirmDelete(proj)" />
+          </div>
         </td>
       </tr>
     </ng-template>

@@ -30,7 +30,7 @@ import { AppUser } from '../../core/models/auth.model';
     </div>
 
     <div class="table-wrapper">
-    <p-table [value]="users" [loading]="loading" styleClass="p-datatable-striped">
+    <p-table [value]="users" [loading]="loading" styleClass="p-datatable-striped p-datatable-sm">
       <ng-template pTemplate="header">
         <tr>
           <th>Username</th>
@@ -48,9 +48,11 @@ import { AppUser } from '../../core/models/auth.model';
           </td>
           <td>{{ u.createdAt | date:'mediumDate' }}</td>
           <td>
-            <p-button icon="pi pi-trash" severity="danger" [text]="true"
-                      (click)="confirmDelete(u)"
-                      [disabled]="u.username === currentUser" />
+            <div class="action-btns">
+              <p-button icon="pi pi-trash" severity="danger" [text]="true"
+                        (click)="confirmDelete(u)"
+                        [disabled]="u.username === currentUser" />
+            </div>
           </td>
         </tr>
       </ng-template>

@@ -23,7 +23,7 @@ import { Discipline } from '../../../core/models/discipline.model';
     </div>
 
     <div class="table-wrapper">
-    <p-table [value]="disciplines" [loading]="loading" styleClass="p-datatable-striped">
+    <p-table [value]="disciplines" [loading]="loading" styleClass="p-datatable-striped p-datatable-sm">
       <ng-template pTemplate="header">
         <tr>
           <th>Name</th>
@@ -36,8 +36,10 @@ import { Discipline } from '../../../core/models/discipline.model';
           <td><strong>{{ d.name }}</strong></td>
           <td>{{ d.description || '—' }}</td>
           <td>
-            <p-button icon="pi pi-pencil" severity="info" [text]="true" [routerLink]="[d.id, 'edit']" />
-            <p-button icon="pi pi-trash" severity="danger" [text]="true" (click)="confirmDelete(d)" />
+            <div class="action-btns">
+              <p-button icon="pi pi-pencil" severity="info" [text]="true" [routerLink]="[d.id, 'edit']" />
+              <p-button icon="pi pi-trash" severity="danger" [text]="true" (click)="confirmDelete(d)" />
+            </div>
           </td>
         </tr>
       </ng-template>

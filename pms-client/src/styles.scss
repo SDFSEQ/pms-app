@@ -92,6 +92,18 @@ h2 { margin: 0 0 1rem; font-size: 1.4rem; font-weight: 600; color: #1e293b; }
 // ── p-dialog: ensure content never clips calendar overlays ────────────────
 .p-dialog .p-dialog-content { overflow: visible !important; }
 
+// ── Table density — compact rows across all tables ────────────────────────
+.p-datatable .p-datatable-thead > tr > th { padding: 0.6rem 0.75rem; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--surface-500); }
+.p-datatable .p-datatable-tbody > tr > td { padding: 0.55rem 0.75rem; font-size: 0.9rem; vertical-align: middle; }
+.p-datatable .p-datatable-tbody > tr { height: auto !important; }
+
+// Fix: PrimeNG p-button renders as block — force inline inside table cells
+.p-datatable td p-button { display: inline-flex !important; }
+.p-datatable td p-button .p-button { display: inline-flex !important; }
+
+// Action button cluster — always a single horizontal row
+.action-btns { display: flex; align-items: center; gap: 0; flex-wrap: nowrap; }
+
 // ── Responsive: page-level utilities ──────────────────────────────────────
 .page-header {
   display: flex;

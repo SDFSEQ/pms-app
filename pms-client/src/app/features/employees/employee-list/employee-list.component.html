@@ -37,7 +37,7 @@
     [paginator]="true"
     [rows]="15"
     [globalFilterFields]="['firstName','lastName','email']"
-    styleClass="p-datatable-striped">
+    styleClass="p-datatable-striped p-datatable-sm">
 
     <ng-template pTemplate="caption">
       <div class="flex justify-content-end">
@@ -71,9 +71,11 @@
         </td>
         <td><app-status-badge [value]="emp.status"></app-status-badge></td>
         <td>
-          <p-button icon="pi pi-eye"    severity="secondary" [text]="true" [routerLink]="[emp.id]"></p-button>
-          <p-button icon="pi pi-pencil" severity="info"      [text]="true" [routerLink]="[emp.id, 'edit']"></p-button>
-          <p-button icon="pi pi-trash"  severity="danger"    [text]="true" (click)="confirmDelete(emp)"></p-button>
+          <div class="action-btns">
+            <p-button icon="pi pi-eye"    severity="secondary" [text]="true" [routerLink]="[emp.id]"></p-button>
+            <p-button icon="pi pi-pencil" severity="info"      [text]="true" [routerLink]="[emp.id, 'edit']"></p-button>
+            <p-button icon="pi pi-trash"  severity="danger"    [text]="true" (click)="confirmDelete(emp)"></p-button>
+          </div>
         </td>
       </tr>
     </ng-template>
