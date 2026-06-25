@@ -6,86 +6,95 @@
   <p-button label="Add Project" icon="pi pi-plus" routerLink="new" />
 </div>
 
-<p-table
-  #dt
-  [value]="projects"
-  [loading]="loading"
-  [paginator]="true"
-  [rows]="15"
-  [globalFilterFields]="['name','status']"
-  styleClass="p-datatable-striped"
-  [expandedRowKeys]="{}">
+<div class="table-wrapper">
+  <p-table
+    #dt
+    [value]="projects"
+    [loading]="loading"
+    [paginator]="true"
+    [rows]="15"
+    [globalFilterFields]="['name','status']"
+    styleClass="p-datatable-striped"
+    [expandedRowKeys]="{}">
 
-  <ng-template pTemplate="caption">
-    <div class="flex justify-content-end">
-      <input pInputText placeholder="Search projects..." (input)="dt.filterGlobal($any($event.target).value, 'contains')" style="width:240px" />
-    </div>
-  </ng-template>
+    <ng-template pTemplate="caption">
+      <div class="flex justify-content-end">
+        <input pInputText placeholder="Search projects..."
+               (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+               style="width:100%;max-width:280px" />
+      </div>
+    </ng-template>
 
-  <ng-template pTemplate="header">
-    <tr>
-      <th style="width:3rem"></th>
-      <th pSortableColumn="name">Project <p-sortIcon field="name" /></th>
-      <th>Start</th>
-      <th>End</th>
-      <th>Status</th>
-      <th>Open / Total</th>
-      <th style="width:120px">Actions</th>
-    </tr>
-  </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width:3rem"></th>
+        <th pSortableColumn="name">Project <p-sortIcon field="name" /></th>
+        <th class="hide-mobile">Start</th>
+        <th class="hide-mobile">End</th>
+        <th>Status</th>
+        <th>Open</th>
+        <th style="width:110px">Actions</th>
+      </tr>
+    </ng-template>
 
-  <ng-template pTemplate="body" let-proj let-expanded="expanded">
-    <tr>
-      <td>
-        <p-button [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"
-                  [pRowToggler]="proj" severity="secondary" [text]="true" size="small" />
-      </td>
-      <td><strong>{{ proj.name }}</strong></td>
-      <td>{{ proj.startDate || '—' }}</td>
-      <td>{{ proj.endDate || '—' }}</td>
-      <td><app-status-badge [value]="proj.status" /></td>
-      <td>
-        <span class="font-bold" [class.text-red-500]="proj.totalOpen > 0" [class.text-green-600]="proj.totalOpen === 0">
-          {{ proj.totalOpen }}
-        </span>
-        <span class="text-color-secondary"> / {{ proj.totalRequired }}</span>
-      </td>
-      <td>
-        <p-button icon="pi pi-eye"    severity="secondary" [text]="true" [routerLink]="[proj.id]" />
-        <p-button icon="pi pi-pencil" severity="info"      [text]="true" [routerLink]="[proj.id, 'edit']" />
-        <p-button icon="pi pi-trash"  severity="danger"    [text]="true" (click)="confirmDelete(proj)" />
-      </td>
-    </tr>
-  </ng-template>
-
-  <ng-template pTemplate="rowexpansion" let-proj>
-    <tr>
-      <td colspan="7" class="bg-surface-50">
-        <div class="p-3">
-          <p class="text-sm text-color-secondary mb-2">Discipline Requirements</p>
-          <div class="flex flex-wrap gap-3">
-            @for (dr of proj.disciplineRequirements; track dr.id) {
-              <div class="discipline-chip" [class.filled]="dr.openCount === 0">
-                <span class="disc-name">{{ dr.disciplineName }}</span>
-                <span class="disc-count">{{ dr.filledCount }} / {{ dr.requiredCount }}</span>
-              </div>
-            }
+    <ng-template pTemplate="body" let-proj let-expanded="expanded">
+      <tr>
+        <td>
+          <p-button [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"
+                    [pRowToggler]="proj" severity="secondary" [text]="true" size="small" />
+        </td>
+        <td>
+          <strong>{{ proj.name }}</strong>
+          <div class="show-mobile text-sm text-color-secondary mt-1">
+            {{ proj.startDate || '—' }} → {{ proj.endDate || '—' }}
           </div>
-        </div>
-      </td>
-    </tr>
-  </ng-template>
+        </td>
+        <td class="hide-mobile">{{ proj.startDate || '—' }}</td>
+        <td class="hide-mobile">{{ proj.endDate || '—' }}</td>
+        <td><app-status-badge [value]="proj.status" /></td>
+        <td>
+          <span class="font-bold" [class.text-red-500]="proj.totalOpen > 0" [class.text-green-600]="proj.totalOpen === 0">
+            {{ proj.totalOpen }}
+          </span>
+          <span class="text-color-secondary hide-mobile"> / {{ proj.totalRequired }}</span>
+        </td>
+        <td>
+          <p-button icon="pi pi-eye"    severity="secondary" [text]="true" [routerLink]="[proj.id]" />
+          <p-button icon="pi pi-pencil" severity="info"      [text]="true" [routerLink]="[proj.id, 'edit']" />
+          <p-button icon="pi pi-trash"  severity="danger"    [text]="true" (click)="confirmDelete(proj)" />
+        </td>
+      </tr>
+    </ng-template>
 
-  <ng-template pTemplate="emptymessage">
-    <tr><td colspan="7" class="text-center">No projects found.</td></tr>
-  </ng-template>
-</p-table>
+    <ng-template pTemplate="rowexpansion" let-proj>
+      <tr>
+        <td colspan="7" class="bg-surface-50">
+          <div class="p-3">
+            <p class="text-sm text-color-secondary mb-2">Discipline Requirements</p>
+            <div class="flex flex-wrap gap-3">
+              @for (dr of proj.disciplineRequirements; track dr.id) {
+                <div class="discipline-chip" [class.filled]="dr.openCount === 0">
+                  <span class="disc-name">{{ dr.disciplineName }}</span>
+                  <span class="disc-count">{{ dr.filledCount }} / {{ dr.requiredCount }}</span>
+                </div>
+              }
+            </div>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="emptymessage">
+      <tr><td colspan="7" class="text-center">No projects found.</td></tr>
+    </ng-template>
+  </p-table>
+</div>
 
 <style>
-  .page-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; }
-  h2 { margin:0; }
-  .discipline-chip { display:flex; flex-direction:column; align-items:center; padding:0.5rem 0.75rem; border:1px solid var(--surface-300); border-radius:6px; min-width:100px; background:var(--surface-0); }
+  .show-mobile { display: none; }
+  .discipline-chip { display:flex; flex-direction:column; align-items:center; padding:0.5rem 0.75rem; border:1px solid var(--surface-300); border-radius:6px; min-width:90px; background:var(--surface-0); }
   .discipline-chip.filled { border-color:var(--green-300); background:var(--green-50); }
-  .disc-name { font-size:0.8rem; font-weight:600; color:var(--surface-700); }
-  .disc-count { font-size:0.9rem; color:var(--surface-900); }
+  .disc-name { font-size:0.78rem; font-weight:600; color:var(--surface-700); }
+  .disc-count { font-size:0.88rem; color:var(--surface-900); }
+  @media (max-width: 640px) { .show-mobile { display: block; } }
 </style>

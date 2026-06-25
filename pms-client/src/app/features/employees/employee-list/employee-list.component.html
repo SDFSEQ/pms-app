@@ -29,50 +29,62 @@
   </p-dropdown>
 </div>
 
-<p-table
-  #dt
-  [value]="employees"
-  [loading]="loading"
-  [paginator]="true"
-  [rows]="15"
-  [globalFilterFields]="['firstName','lastName','email']"
-  styleClass="p-datatable-striped">
+<div class="table-wrapper">
+  <p-table
+    #dt
+    [value]="employees"
+    [loading]="loading"
+    [paginator]="true"
+    [rows]="15"
+    [globalFilterFields]="['firstName','lastName','email']"
+    styleClass="p-datatable-striped">
 
-  <ng-template pTemplate="caption">
-    <div class="flex justify-content-end">
-      <input pInputText placeholder="Search name or email..." (input)="dt.filterGlobal($any($event.target).value, 'contains')" style="width:240px" />
-    </div>
-  </ng-template>
+    <ng-template pTemplate="caption">
+      <div class="flex justify-content-end">
+        <input pInputText placeholder="Search name or email..."
+               (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+               style="width:100%;max-width:280px" />
+      </div>
+    </ng-template>
 
-  <ng-template pTemplate="header">
-    <tr>
-      <th pSortableColumn="lastName">Name <p-sortIcon field="lastName"></p-sortIcon></th>
-      <th>Email</th>
-      <th>Phone</th>
-      <th>Disciplines</th>
-      <th pSortableColumn="status">Status <p-sortIcon field="status"></p-sortIcon></th>
-      <th style="width:120px">Actions</th>
-    </tr>
-  </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="lastName">Name <p-sortIcon field="lastName"></p-sortIcon></th>
+        <th class="hide-mobile">Email</th>
+        <th class="hide-tablet">Phone</th>
+        <th class="hide-mobile">Disciplines</th>
+        <th pSortableColumn="status">Status <p-sortIcon field="status"></p-sortIcon></th>
+        <th style="width:110px">Actions</th>
+      </tr>
+    </ng-template>
 
-  <ng-template pTemplate="body" let-emp>
-    <tr>
-      <td><strong>{{ emp.lastName }}, {{ emp.firstName }}</strong></td>
-      <td>{{ emp.email }}</td>
-      <td>{{ emp.phone || '—' }}</td>
-      <td>
-        <p-tag *ngFor="let d of emp.disciplines" [value]="d.name" severity="secondary" styleClass="mr-1 mb-1"></p-tag>
-      </td>
-      <td><app-status-badge [value]="emp.status"></app-status-badge></td>
-      <td>
-        <p-button icon="pi pi-eye"    severity="secondary" [text]="true" [routerLink]="[emp.id]"></p-button>
-        <p-button icon="pi pi-pencil" severity="info"      [text]="true" [routerLink]="[emp.id, 'edit']"></p-button>
-        <p-button icon="pi pi-trash"  severity="danger"    [text]="true" (click)="confirmDelete(emp)"></p-button>
-      </td>
-    </tr>
-  </ng-template>
+    <ng-template pTemplate="body" let-emp>
+      <tr>
+        <td>
+          <strong>{{ emp.lastName }}, {{ emp.firstName }}</strong>
+          <div class="show-mobile text-sm text-color-secondary mt-1">{{ emp.email }}</div>
+        </td>
+        <td class="hide-mobile">{{ emp.email }}</td>
+        <td class="hide-tablet">{{ emp.phone || '—' }}</td>
+        <td class="hide-mobile">
+          <p-tag *ngFor="let d of emp.disciplines" [value]="d.name" severity="secondary" styleClass="mr-1 mb-1"></p-tag>
+        </td>
+        <td><app-status-badge [value]="emp.status"></app-status-badge></td>
+        <td>
+          <p-button icon="pi pi-eye"    severity="secondary" [text]="true" [routerLink]="[emp.id]"></p-button>
+          <p-button icon="pi pi-pencil" severity="info"      [text]="true" [routerLink]="[emp.id, 'edit']"></p-button>
+          <p-button icon="pi pi-trash"  severity="danger"    [text]="true" (click)="confirmDelete(emp)"></p-button>
+        </td>
+      </tr>
+    </ng-template>
 
-  <ng-template pTemplate="emptymessage">
-    <tr><td colspan="6" class="text-center">No employees found.</td></tr>
-  </ng-template>
-</p-table>
+    <ng-template pTemplate="emptymessage">
+      <tr><td colspan="6" class="text-center">No employees found.</td></tr>
+    </ng-template>
+  </p-table>
+</div>
+
+<style>
+  .show-mobile { display: none; }
+  @media (max-width: 640px) { .show-mobile { display: block; } }
+</style>

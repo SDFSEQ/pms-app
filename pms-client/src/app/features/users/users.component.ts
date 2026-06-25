@@ -29,6 +29,7 @@ import { AppUser } from '../../core/models/auth.model';
       <p-button label="Add User" icon="pi pi-plus" (click)="openDialog()" />
     </div>
 
+    <div class="table-wrapper">
     <p-table [value]="users" [loading]="loading" styleClass="p-datatable-striped">
       <ng-template pTemplate="header">
         <tr>
@@ -57,6 +58,7 @@ import { AppUser } from '../../core/models/auth.model';
         <tr><td colspan="4" class="text-center">No users found.</td></tr>
       </ng-template>
     </p-table>
+    </div>
 
     <p-dialog header="Add New User" [(visible)]="showDialog" [modal]="true"
               [style]="{ width: '90vw', 'max-width': '420px' }">

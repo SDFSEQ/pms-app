@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, EventEmitter, Output, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
@@ -12,27 +12,35 @@ import { AuthService } from '../../core/services/auth.service';
   template: `
     <div class="sidebar">
       <div class="sidebar-logo">
-        <span class="logo-text">PMS</span>
-        <span class="logo-sub">Project Manager</span>
+        <div class="logo-content">
+          <span class="logo-text">PMS</span>
+          <span class="logo-sub">Project Manager</span>
+        </div>
+        <button class="sidebar-close" (click)="closeRequest.emit()" aria-label="Close menu">
+          <i class="pi pi-times"></i>
+        </button>
       </div>
 
       <nav class="sidebar-nav">
         @for (item of menuItems; track item.label) {
-          <a [routerLink]="item.routerLink" routerLinkActive="active" class="nav-item">
+          <a [routerLink]="item.routerLink" routerLinkActive="active" class="nav-item"
+             (click)="closeRequest.emit()">
             <i [class]="item.icon"></i>
             <span>{{ item.label }}</span>
           </a>
         }
         <div class="nav-divider"></div>
         @for (item of assignItems; track item.label) {
-          <a [routerLink]="item.routerLink" routerLinkActive="active" class="nav-item">
+          <a [routerLink]="item.routerLink" routerLinkActive="active" class="nav-item"
+             (click)="closeRequest.emit()">
             <i [class]="item.icon"></i>
             <span>{{ item.label }}</span>
           </a>
         }
         @if (auth.isAdmin()) {
           <div class="nav-divider"></div>
-          <a routerLink="/users" routerLinkActive="active" class="nav-item">
+          <a routerLink="/users" routerLinkActive="active" class="nav-item"
+             (click)="closeRequest.emit()">
             <i class="pi pi-shield"></i>
             <span>User Management</span>
           </a>
@@ -55,7 +63,12 @@ import { AuthService } from '../../core/services/auth.service';
   `,
   styles: [`
     .sidebar { display:flex; flex-direction:column; height:100%; background:var(--surface-900); color:var(--surface-0); }
-    .sidebar-logo { padding:1.5rem 1rem; border-bottom:1px solid var(--surface-700); }
+    .sidebar-logo { padding:1.25rem 1rem; border-bottom:1px solid var(--surface-700); display:flex; align-items:center; justify-content:space-between; }
+    .logo-content { display:flex; flex-direction:column; }
+    .sidebar-close { display:none; background:none; border:none; color:var(--surface-400); cursor:pointer; padding:0.3rem; border-radius:6px; }
+    .sidebar-close:hover { color:var(--surface-100); background:var(--surface-700); }
+    .sidebar-close i { font-size:1rem; }
+    @media (max-width: 1023px) { .sidebar-close { display:flex; align-items:center; justify-content:center; } }
     .logo-text { display:block; font-size:1.5rem; font-weight:700; color:var(--primary-400); }
     .logo-sub { font-size:0.75rem; color:var(--surface-400); }
     .sidebar-nav { padding:1rem 0; flex:1; overflow-y:auto; }
@@ -77,6 +90,7 @@ import { AuthService } from '../../core/services/auth.service';
   `]
 })
 export class SidebarComponent {
+  @Output() closeRequest = new EventEmitter<void>();
   readonly auth = inject(AuthService);
 
   get initial(): string {

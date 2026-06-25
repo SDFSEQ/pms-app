@@ -22,6 +22,7 @@ import { Discipline } from '../../../core/models/discipline.model';
       <p-button label="Add Discipline" icon="pi pi-plus" routerLink="new" />
     </div>
 
+    <div class="table-wrapper">
     <p-table [value]="disciplines" [loading]="loading" styleClass="p-datatable-striped">
       <ng-template pTemplate="header">
         <tr>
@@ -44,6 +45,7 @@ import { Discipline } from '../../../core/models/discipline.model';
         <tr><td colspan="3" class="text-center">No disciplines found.</td></tr>
       </ng-template>
     </p-table>
+    </div>
   `,
   styles: [`.page-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; } h2 { margin:0; }`]
 })
